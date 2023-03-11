@@ -9,3 +9,6 @@ This repository contains my dotfiles for neovim.
 * [ripgrep](https://github.com/BurntSushi/ripgrep)
 * [fdfind](https://github.com/sharkdp/fd)
 
+```console
+./install.sh
+```
