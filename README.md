@@ -1,6 +1,14 @@
+<div align="center">
+
 # Neovim Config
 
-This repository contains my dotfiles for neovim.
+##### My dotfiles for Neovim
+
+![lsp](./resources/lsp.png)
+![netrw](./resources/netrw.png)
+![telescope](./resources/telescope.png)
+
+</div>
 
 ## Installation
 
