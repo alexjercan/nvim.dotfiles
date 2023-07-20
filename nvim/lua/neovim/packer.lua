@@ -49,5 +49,8 @@ return require('packer').startup(function(use)
   use({ 'rose-pine/neovim', as = 'rose-pine' })
 
   use('github/copilot.vim')
+
+  -- use('/home/alex/Documents/codehint')
+  use('alexjercan/codehint')
 end)
 
