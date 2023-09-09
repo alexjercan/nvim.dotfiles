@@ -52,5 +52,7 @@ return require('packer').startup(function(use)
 
   -- use('/home/alex/Documents/codehint')
   use('alexjercan/codehint')
+
+  use("epwalsh/obsidian.nvim")
 end)
 
