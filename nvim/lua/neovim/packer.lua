@@ -53,6 +53,6 @@ return require('packer').startup(function(use)
   -- use('/home/alex/Documents/codehint')
   use('alexjercan/codehint')
 
-  use("epwalsh/obsidian.nvim")
+  use({"alexjercan/obsidian.nvim", branch = "feat/daily-opts"})
 end)
 

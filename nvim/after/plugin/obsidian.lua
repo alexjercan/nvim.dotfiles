@@ -3,27 +3,13 @@ local obsidian = require("obsidian")
 obsidian.setup({
     dir = "~/personal/the-den/",
 
+    notes_subdir = "Notes",
+
     daily_notes = {
         folder = "Daily",
-        date_format = "%Y-%m-%d-%A"
+        date_format = "%Y-%m-%d-%A",
+        alias_format = "📝 %A, %B %d, %Y"
     },
-
-    disable_frontmatter = false,
-    note_frontmatter_func = function(note)
-        local out = { id = note.id, aliases = note.aliases }
-
-        if note:has_tag("daily-notes") then
-            out["tags"] = { "daily" }
-        end
-
-        if note.metadata ~= nil and obsidian.util.table_length(note.metadata) > 0 then
-            for k, v in pairs(note.metadata) do
-                out[k] = v
-            end
-        end
-
-        return out
-    end,
 
     templates = {
         subdir = "Templates",
@@ -33,10 +19,22 @@ obsidian.setup({
     open_notes_in = "current",
 })
 
+vim.keymap.set("n", "<leader>of", function ()
+    return "<cmd>ObsidianFollowLink<CR>"
+end, { noremap = false, expr = true })
+
+vim.keymap.set("n", "<leader>on", function ()
+    return "<cmd>ObsidianNew<CR>"
+end, { noremap = false, expr = true })
+
+vim.keymap.set("n", "<leader>os", function ()
+    return "<cmd>ObsidianSearch<CR>"
+end, { noremap = false, expr = true })
+
 vim.keymap.set("n", "<leader>ot", function()
     return "<cmd>ObsidianToday<CR>"
 end, { noremap = false, expr = true })
 
-vim.keymap.set("n", "<leader>of", function ()
-    return "<cmd>ObsidianFollowLink<CR>"
+vim.keymap.set("n", "<leader>oy", function()
+    return "<cmd>ObsidianYesterday<CR>"
 end, { noremap = false, expr = true })
