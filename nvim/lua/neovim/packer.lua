@@ -59,5 +59,6 @@ return require('packer').startup(function(use)
   use('alexjercan/codehint')
 
   use('epwalsh/obsidian.nvim')
+  use('chrisbra/Colorizer')
 end)
 
