@@ -46,7 +46,12 @@ return require('packer').startup(function(use)
 	  }
   }
 
+  -- color schemes
   use({ 'rose-pine/neovim', as = 'rose-pine' })
+  use({ 'morhetz/gruvbox', as = 'gruvbox' })
+  use({ 'folke/tokyonight.nvim', as = 'tokyonight' })
+  use({ 'w0ng/vim-hybrid', as = 'hybrid' })
+  use({ 'i3d/vim-jimbothemes' })
 
   use('github/copilot.vim')
 
