@@ -27,7 +27,7 @@
 
 For tmux to show the correct icons in the status bar you will need a [nerd
 font](https://www.nerdfonts.com/). Also you need to follow the
-[tmp](https://github.com/tmux-plugins/tpm) readme to enable plugins for tmux.
+[tpm](https://github.com/tmux-plugins/tpm) readme to enable plugins for tmux.
 
 ## Credits
 
