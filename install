@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
-rm -rf ~/.config/nvim
+unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim
 ln -s $(pwd)/nvim ~/.config/nvim
 
+unlink ~/.tmux.conf 2> /dev/null || rm -f ~/.tmux.conf
+ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
+
+mkdir -p ~/.local/bin
+unlink ~/.local/bin/tmux-sessionizer 2> /dev/null || rm -f ~/.local/bin/tmux-sessionizer
+ln -s $(pwd)/scripts/tmux-sessionizer ~/.local/bin/tmux-sessionizer

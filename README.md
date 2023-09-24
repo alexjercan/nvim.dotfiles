@@ -2,11 +2,11 @@
 
 # Neovim Config
 
-##### My dotfiles for Neovim
+##### My dotfiles for Neovim and Tmux
 
-![lsp](./resources/lsp.png)
-![netrw](./resources/netrw.png)
-![telescope](./resources/telescope.png)
+![lsp](./.resources/lsp.png)
+![netrw](./.resources/netrw.png)
+![telescope](./.resources/telescope.png)
 
 </div>
 
@@ -16,7 +16,20 @@
 * [packer.nvim](https://github.com/wbthomason/packer.nvim)
 * [ripgrep](https://github.com/BurntSushi/ripgrep)
 * [fdfind](https://github.com/sharkdp/fd)
+* [tmux](https://github.com/tmux/tmux)
+* [fzf](https://github.com/junegunn/fzf)
 
 ```console
-./install.sh
+./install
 ```
+
+## Other Dependencies
+
+For tmux to show the correct icons in the status bar you will need a [nerd
+font](https://www.nerdfonts.com/). Also you need to follow the
+[tmp](https://github.com/tmux-plugins/tpm) readme to enable plugins for tmux.
+
+## Credits
+
+- ThePrimeagen for
+  [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)
