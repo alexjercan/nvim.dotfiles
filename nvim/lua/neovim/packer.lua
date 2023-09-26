@@ -52,6 +52,7 @@ return require('packer').startup(function(use)
   use({ 'folke/tokyonight.nvim', as = 'tokyonight' })
   use({ 'w0ng/vim-hybrid', as = 'hybrid' })
   use({ 'i3d/vim-jimbothemes' })
+  use('chrisbra/Colorizer')
 
   use('github/copilot.vim')
 
@@ -59,6 +60,5 @@ return require('packer').startup(function(use)
   use('alexjercan/codehint')
 
   use('epwalsh/obsidian.nvim')
-  use('chrisbra/Colorizer')
 end)
 
