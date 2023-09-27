@@ -1,4 +1,5 @@
 local obsidian = require("obsidian")
+local builtin = require('telescope.builtin')
 
 obsidian.setup({
     dir = "~/personal/the-den/",
@@ -38,3 +39,7 @@ end, { noremap = false, expr = true })
 vim.keymap.set("n", "<leader>oy", function()
     return "<cmd>ObsidianYesterday<CR>"
 end, { noremap = false, expr = true })
+
+vim.keymap.set("n", "<leader>oo", function()
+	builtin.grep_string({ cwd = "~/personal/the-den/", search = "- [ ]" })
+end)
