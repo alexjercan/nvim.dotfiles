@@ -60,5 +60,7 @@ return require('packer').startup(function(use)
   use('alexjercan/codehint')
 
   use('epwalsh/obsidian.nvim')
+
+  use({ "luckasRanarison/tree-sitter-hypr" })
 end)
 
