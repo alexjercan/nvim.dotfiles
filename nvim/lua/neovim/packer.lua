@@ -54,13 +54,11 @@ return require('packer').startup(function(use)
   use({ 'i3d/vim-jimbothemes' })
   use('chrisbra/Colorizer')
 
+  -- misc
   use('github/copilot.vim')
-
-  -- use('/home/alex/Documents/codehint')
   use('alexjercan/codehint')
-
   use('epwalsh/obsidian.nvim')
-
-  use({ "luckasRanarison/tree-sitter-hypr" })
+  use("luckasRanarison/tree-sitter-hypr")
+  use('andweeb/presence.nvim')
 end)
 
