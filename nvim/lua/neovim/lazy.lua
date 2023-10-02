@@ -34,6 +34,11 @@ require("lazy").setup({
     'epwalsh/obsidian.nvim',
     "luckasRanarison/tree-sitter-hypr",
     'andweeb/presence.nvim',
+    "folke/neodev.nvim",
+    {
+      "folke/todo-comments.nvim",
+      dependencies = { "nvim-lua/plenary.nvim" },
+    },
 
     -- lsp
     {'williamboman/mason.nvim'},
