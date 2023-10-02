@@ -1,6 +1,7 @@
 require("neovim.set")
 require("neovim.remap")
 require("neovim.globals")
+require("neovim.lazy")
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd

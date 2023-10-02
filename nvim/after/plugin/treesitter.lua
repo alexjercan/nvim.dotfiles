@@ -1,16 +1,16 @@
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.hypr = {
-  install_info = {
-    url = "https://github.com/luckasRanarison/tree-sitter-hypr",
-    files = { "src/parser.c" },
-    branch = "master",
-  },
-  filetype = "hypr",
+    install_info = {
+        url = "https://github.com/luckasRanarison/tree-sitter-hypr",
+        files = { "src/parser.c" },
+        branch = "master",
+    },
+    filetype = "hypr",
 }
 
-require'nvim-treesitter.configs'.setup {
+require'nvim-treesitter.configs'.setup({
   -- A list of parser names, or "all"
-  ensure_installed = "all",
+  ensure_installed = { "lua" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -29,7 +29,7 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
-}
+})
 
 function ContextSetup(show_all_context)
     require("treesitter-context").setup({
