@@ -33,3 +33,4 @@ font](https://www.nerdfonts.com/). Also you need to follow the
 
 - ThePrimeagen for
   [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)
+- i3d for [breakingbad](https://github.com/i3d/vim-jimbothemes#breakingbad)
