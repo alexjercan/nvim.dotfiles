@@ -22,20 +22,3 @@ require("presence").setup({
     workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
     line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
 })
-
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-
-local presence_group = augroup('Presence', {})
-
-autocmd('BufRead', {
-    group = presence_group,
-    pattern = '*',
-    callback = function()
-        if string.find(vim.api.nvim_buf_get_name(0), "the%-den") then
-            package.loaded.presence:cancel()
-        else
-            package.loaded.presence:update()
-        end
-    end,
-})
