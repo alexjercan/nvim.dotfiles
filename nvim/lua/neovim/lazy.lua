@@ -56,4 +56,5 @@ require("lazy").setup({
     { 'w0ng/vim-hybrid', name = 'hybrid' },
     'i3d/vim-jimbothemes' ,
     'chrisbra/Colorizer',
+    'lurst/austere.vim',
 })

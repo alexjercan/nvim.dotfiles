@@ -1,6 +1,7 @@
 {
   "Colorizer": { "branch": "master", "commit": "9a24670a9fe610ba4b6bd104e340a0d11616f8c0" },
   "LuaSnip": { "branch": "master", "commit": "cdbf6f41381e5ee4810b4b09284b603d8f18365d" },
+  "austere.vim": { "branch": "master", "commit": "d985d31982bef869055e7a8c8d01cfe8c2992279" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "44b16d11215dce86f253ce0c30949813c0a90765" },
   "codehint": { "branch": "master", "commit": "9e7f2edebcf6c09fd2836050fc364adbfb7f7a48" },
   "copilot.vim": { "branch": "release", "commit": "998cf5ab1b85e844c7e8edb864a997e590df7182" },
