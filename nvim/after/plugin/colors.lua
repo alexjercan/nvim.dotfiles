@@ -5,7 +5,7 @@ function ColorMyAustere()
 	vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#252525" })
 end
 
-function ColorBreakingBad()
+function ColorMyBreakingBad()
     vim.opt.background = "dark"
     vim.opt.termguicolors = true
 	vim.cmd.colorscheme("breakingbad")
