@@ -13,6 +13,7 @@ obsidian.setup({
     },
 
     templates = {
+        subdir = "Templates",
     },
 
     finder = "telescope.nvim",
