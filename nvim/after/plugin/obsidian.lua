@@ -9,12 +9,29 @@ obsidian.setup({
     daily_notes = {
         folder = "Daily",
         date_format = "%Y-%m-%d-%A",
-        alias_format = "📝 %A, %B %d, %Y"
+        alias_format = "%A, %B %d, %Y",
+        template = "daily.md",
+    },
+
+    mappings = {
+        ["gf"] = {
+            action = function()
+                return require("obsidian").util.gf_passthrough()
+            end,
+            opts = { noremap = false, expr = true, buffer = true },
+        },
     },
 
     templates = {
         subdir = "Templates",
     },
+
+    -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+    -- URL it will be ignored but you can customize this behavior here.
+    follow_url_func = function(url)
+        -- Open the URL in the default web browser.
+        vim.fn.jobstart({"xdg-open", url})  -- linux
+    end,
 
     finder = "telescope.nvim",
     open_notes_in = "current",
