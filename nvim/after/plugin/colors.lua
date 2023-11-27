@@ -13,10 +13,19 @@ function ColorMyBreakingBad()
 	vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#404040" })
 end
 
+function ColorMyGruvbox()
+    vim.opt.background = "dark"
+    vim.opt.termguicolors = true
+    vim.cmd.colorscheme("gruvbox")
+
+    vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#404040" })
+end
+
 function ColorMyPencils(color)
     if color == nil then
         -- TODO: Try to detect my terminal colorscheme and set the correct colorscheme
-        ColorMyAustere()
+        -- ColorMyAustere()
+        ColorMyGruvbox()
     else
         vim.cmd.colorscheme(color)
     end
