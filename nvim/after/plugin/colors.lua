@@ -18,7 +18,7 @@ function ColorMyGruvbox()
     vim.opt.termguicolors = true
     vim.cmd.colorscheme("gruvbox")
 
-    vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#404040" })
+    vim.cmd("hi Normal guibg=None")
 end
 
 function ColorMyPencils(color)
