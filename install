@@ -1,11 +1,113 @@
 #!/usr/bin/env bash
 
-unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim
-ln -s $(pwd)/nvim ~/.config/nvim
+COLOR_RED='\033[0;31m'
+COLOR_YELLOW='\033[0;33m'
+COLOR_GREEN='\033[0;32m'
+COLOR_BLUE='\033[0;34m'
+COLOR_RESET='\033[0m'
 
-unlink ~/.tmux.conf 2> /dev/null || rm -f ~/.tmux.conf
-ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
+if [[ ! -x "$(command -v nvim)" ]]; then
+    echo -e "${COLOR_RED}Neovim is not installed! Please install neovim and try again.${COLOR_RESET}"
+    exit 1
+fi
+
+NVIM_VERSION=$(nvim --version | grep -oP '(?<=^NVIM v).+' | tr -d '"')
+NVIM_MINOR_VERSION=$(echo $NVIM_VERSION | cut -d '.' -f 2)
+if [[ $NVIM_MINOR_VERSION -lt 9 ]]; then
+    echo -e "${COLOR_RED}Neovim version is too old! Please update neovim and try again.${COLOR_RESET}"
+    echo -e "${COLOR_YELLOW}You will need at least version 0.9.0${COLOR_RESET}"
+    exit 1
+fi
+
+# DEPENDENCIES #
+# This script will install the dependencies for the dotfiles we assume that
+# you already have neovim
+
+DISTRO=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
+if [[ $DISTRO == "arch" ]]; then
+    echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
+    sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+elif [[ $DISTRO == "ubuntu" ]]; then
+    echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
+    sudo apt install -y ripgrep fd-find fzf tmux
+else
+    echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
+    echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
+    exit 1
+fi
+
+SCRIPT_DIR=$(dirname $(readlink -f $0))
+
+# NEOVIM SETUP #
+
+echo -e "${COLOR_BLUE}Installing neovim config...${COLOR_RESET}"
+
+NVIM_DIR=$SCRIPT_DIR/nvim
+
+unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim # remove old nvim config
+NVIM_PLUGINS_DEFAULT_DIR=$NVIM_DIR/lua/plugins.default
+NVIM_PLUGINS_DIR=$NVIM_DIR/lua/plugins
+
+## DEFAULT PLUGINS ##
+# This will install the plugins that I think are essential for a good nvim experience
+# It will copy the plugins from the default directory to the working plugins directory
+# so that you can modify them without affecting the default plugins
+
+echo "Installing default plugins..."
+
+NVIM_PLUGINS=("fugitive" "lsp" "surround" "trouble" "telescope" "treesitter" "undotree")
+for plugin in "${NVIM_PLUGINS[@]}"; do
+    cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
+done
+
+## OPTIONAL PLUGINS ##
+# This will install the plugins that I think are optional for a good nvim experience
+# It will copy the plugins from the default directory to the working plugins directory
+# so that you can modify them without affecting the default plugins
+
+echo "Installing optional plugins..."
+
+NVIM_PLUGINS_OPTIONAL=("color" "todo" "copilot" "harpoon" "obsidian")
+for plugin in "${NVIM_PLUGINS_OPTIONAL[@]}"; do
+    read -n1 -rep 'Do you want to install the optional plugin '$plugin'? [y/n]: ' answer
+    if [[ $answer =~ ^[Yy]$ ]]; then
+        cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
+    fi
+done
+
+## INSTALL CONFIG ##
+# This will create the symbolic link to the nvim config directory
+ln -s $NVIM_DIR ~/.config/nvim
+
+# TMUX SETUP #
+
+echo -e "${COLOR_BLUE}Installing tmux config...${COLOR_RESET}"
+
+TMUX_DIR=$SCRIPT_DIR/tmux
+
+unlink ~/.tmux.conf 2> /dev/null || rm -f ~/.tmux.conf # remove old tmux config
+
+ln -s $TMUX_DIR/.tmux.conf ~/.tmux.conf
+
+# This will install the tmux plugin manager and the plugins
+tmux new-session -d -s temp-session 'tmux source ~/.tmux.conf && tmux kill-session -t temp-session'
+
+# SCRIPTS SETUP #
+
+echo -e "${COLOR_BLUE}Installing dev scripts...${COLOR_RESET}"
+
+SCRIPTS_DIR=$SCRIPT_DIR/scripts
+SCRIPTS=$(ls $SCRIPTS_DIR)
 
 mkdir -p ~/.local/bin
-unlink ~/.local/bin/tmux-sessionizer 2> /dev/null || rm -f ~/.local/bin/tmux-sessionizer
-ln -s $(pwd)/scripts/tmux-sessionizer ~/.local/bin/tmux-sessionizer
+
+for script in $SCRIPTS; do
+    unlink ~/.local/bin/$script 2> /dev/null || rm -f ~/.local/bin/$script
+
+    echo "Installing script: $script..."
+
+    ln -s $SCRIPTS_DIR/$script ~/.local/bin/$script
+done
+
+echo -e "${COLOR_GREEN}Installation complete!${COLOR_RESET}"
+echo -e "${COLOR_YELLOW}You need to add ~/.local/bin to your PATH variable in order to use the dev scripts${COLOR_RESET}"
