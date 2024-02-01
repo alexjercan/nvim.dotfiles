@@ -13,7 +13,6 @@
 ## Installation
 
 * [neovim 0.9.0+](https://github.com/neovim/neovim)
-* [lazy.nvim](https://github.com/folke/lazy.nvim)
 * [ripgrep](https://github.com/BurntSushi/ripgrep)
 * [fdfind](https://github.com/sharkdp/fd)
 * [tmux](https://github.com/tmux/tmux)
