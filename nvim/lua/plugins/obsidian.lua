@@ -70,6 +70,7 @@ return {
         end, { noremap = false, expr = true })
 
         vim.keymap.set("n", "<leader>oo", function()
+            local builtin = require("telescope.builtin")
             builtin.grep_string({ cwd = "~/personal/the-den/", search = "- [ ]" })
         end)
     end,
