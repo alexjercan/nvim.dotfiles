@@ -21,14 +21,12 @@ function ColorMyGruvbox()
     vim.cmd("hi Normal guibg=None")
 end
 
-function ColorMyPencils(color)
-    if color == nil then
-        -- TODO: Try to detect my terminal colorscheme and set the correct colorscheme
-        -- ColorMyAustere()
-        ColorMyGruvbox()
-    else
-        vim.cmd.colorscheme(color)
-    end
-end
-
-ColorMyPencils()
+return {
+    { "rose-pine/neovim", name = "rose-pine" },
+    { "morhetz/gruvbox", name = "gruvbox", config = ColorMyGruvbox },
+    { "folke/tokyonight.nvim", name = "tokyonight" },
+    { "w0ng/vim-hybrid", name = "hybrid" },
+    "i3d/vim-jimbothemes" ,
+    "chrisbra/Colorizer",
+    "lurst/austere.vim",
+}

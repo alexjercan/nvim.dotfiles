@@ -1,5 +1,4 @@
 require("neovim.set")
 require("neovim.remap")
 require("neovim.globals")
-require("neovim.lazy")
 require("neovim.autocmd")
