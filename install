@@ -113,5 +113,21 @@ for script in $SCRIPTS; do
     ln -s $SCRIPTS_DIR/$script ~/.local/bin/$script
 done
 
+# INSTALLATION COMPLETE #
+
+# Check if you have a patched font installed
+echo -en "Can you see a checkmark? (y/n) \u2713"
+read -n1 -rs CHECKMARK_ANSWER
+echo ""
+
+echo -en "Can you see a branch symbol? (y/n) \uE0A0"
+read -n1 -rs BRANCH_ANSWER
+echo ""
+
+if [[ ! $CHECKMARK_ANSWER =~ ^[Yy]$ || ! $BRANCH_ANSWER =~ ^[Yy]$ ]]; then
+    echo -e "${COLOR_YELLOW}You need to install a patched font in order to see the dev icons otherwise some things will look weird${COLOR_RESET}"
+    echo -e "You can find a list of patched fonts at https://www.nerdfonts.com/font-downloads"
+fi
+
 echo -e "${COLOR_GREEN}Installation complete!${COLOR_RESET}"
 echo -e "${COLOR_YELLOW}You need to add ~/.local/bin to your PATH variable in order to use the dev scripts${COLOR_RESET}"
