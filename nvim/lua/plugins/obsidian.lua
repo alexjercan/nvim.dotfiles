@@ -41,6 +41,10 @@ return {
 
         finder = "telescope.nvim",
         open_notes_in = "current",
+
+        ui = {
+            enable = false,
+        },
     },
     config = function(_, opts)
         require("obsidian").setup(opts)
