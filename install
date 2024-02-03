@@ -24,17 +24,25 @@ fi
 # you already have neovim
 
 DISTRO=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
-if [[ $DISTRO == "arch" ]]; then
-    echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
-    sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
-elif [[ $DISTRO == "ubuntu" ]]; then
-    echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
-    sudo apt install -y ripgrep fd-find fzf tmux
-else
-    echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
-    echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
-    exit 1
-fi
+case "$DISTRO" in
+    "arch")
+        echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
+        sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+        ;;
+    "ubuntu")
+        echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
+        sudo apt install -y ripgrep fd-find fzf tmux
+        ;;
+    "linuxmint")
+        echo -e "${COLOR_BLUE}Installing dependencies for Linux Mint...${COLOR_RESET}"
+        sudo apt install -y ripgrep fd-find fzf tmux
+        ;;
+    *)
+        echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
+        echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
+        exit 1
+esac
+
 
 SCRIPT_DIR=$(dirname $(readlink -f $0))
 
