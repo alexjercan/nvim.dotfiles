@@ -29,6 +29,10 @@ case "$DISTRO" in
         echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
         sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
         ;;
+    "manjaro")
+        echo -e "${COLOR_BLUE}Installing dependencies for Manjaro...${COLOR_RESET}"
+        sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+        ;;
     "ubuntu")
         echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
         sudo apt install -y ripgrep fd-find fzf tmux
