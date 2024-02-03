@@ -15,6 +15,8 @@
 * [neovim 0.9.0+](https://github.com/neovim/neovim)
 
 ```console
+git clone https://github.com/alexjercan/nvim.dotfiles.git
+cd nvim.dotfiles
 ./install
 ```
 
