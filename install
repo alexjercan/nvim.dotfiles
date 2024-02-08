@@ -6,144 +6,189 @@ COLOR_GREEN='\033[0;32m'
 COLOR_BLUE='\033[0;34m'
 COLOR_RESET='\033[0m'
 
-if [[ ! -x "$(command -v nvim)" ]]; then
-    echo -e "${COLOR_RED}Neovim is not installed! Please install neovim and try again.${COLOR_RESET}"
-    exit 1
-fi
-
-NVIM_VERSION=$(nvim --version | grep -oP '(?<=^NVIM v).+' | tr -d '"')
-NVIM_MINOR_VERSION=$(echo $NVIM_VERSION | cut -d '.' -f 2)
-if [[ $NVIM_MINOR_VERSION -lt 9 ]]; then
-    echo -e "${COLOR_RED}Neovim version is too old! Please update neovim and try again.${COLOR_RESET}"
-    echo -e "${COLOR_YELLOW}You will need at least version 0.9.0${COLOR_RESET}"
-    exit 1
-fi
-
-# DEPENDENCIES #
-# This script will install the dependencies for the dotfiles we assume that
-# you already have neovim
-
-DISTRO=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
-case "$DISTRO" in
-    "arch")
-        echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
-        sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
-        ;;
-    "manjaro")
-        echo -e "${COLOR_BLUE}Installing dependencies for Manjaro...${COLOR_RESET}"
-        sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
-        ;;
-    "endeavouros")
-        echo -e "${COLOR_BLUE}Installing dependencies for EndeavourOS...${COLOR_RESET}"
-        sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
-        ;;
-    "ubuntu")
-        echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
-        sudo apt install -y ripgrep fd-find fzf tmux
-        ;;
-    "linuxmint")
-        echo -e "${COLOR_BLUE}Installing dependencies for Linux Mint...${COLOR_RESET}"
-        sudo apt install -y ripgrep fd-find fzf tmux
-        ;;
-    *)
-        echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
-        echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
-        exit 1
-esac
-
-
 SCRIPT_DIR=$(dirname $(readlink -f $0))
 
-# NEOVIM SETUP #
-
-echo -e "${COLOR_BLUE}Installing neovim config...${COLOR_RESET}"
-
-NVIM_DIR=$SCRIPT_DIR/nvim
-
-unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim # remove old nvim config
-NVIM_PLUGINS_DEFAULT_DIR=$NVIM_DIR/lua/plugins.default
-NVIM_PLUGINS_DIR=$NVIM_DIR/lua/plugins
-
-## DEFAULT PLUGINS ##
-# This will install the plugins that I think are essential for a good nvim experience
-# It will copy the plugins from the default directory to the working plugins directory
-# so that you can modify them without affecting the default plugins
-
-echo "Installing default plugins..."
-
-NVIM_PLUGINS=("fugitive" "lsp" "surround" "trouble" "telescope" "treesitter" "undotree")
-for plugin in "${NVIM_PLUGINS[@]}"; do
-    cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
-done
-
-## OPTIONAL PLUGINS ##
-# This will install the plugins that I think are optional for a good nvim experience
-# It will copy the plugins from the default directory to the working plugins directory
-# so that you can modify them without affecting the default plugins
-
-echo "Installing optional plugins..."
-
-NVIM_PLUGINS_OPTIONAL=("color" "todo" "copilot" "harpoon" "obsidian")
-for plugin in "${NVIM_PLUGINS_OPTIONAL[@]}"; do
-    read -n1 -rep 'Do you want to install the optional plugin '$plugin'? [y/n]: ' answer
-    if [[ $answer =~ ^[Yy]$ ]]; then
-        cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
+checks() {
+    # CHECKS #
+    if [[ ! -x "$(command -v nvim)" ]]; then
+        echo -e "${COLOR_RED}Neovim is not installed! Please install neovim and try again.${COLOR_RESET}"
+        exit 1
     fi
-done
 
-## INSTALL CONFIG ##
-# This will create the symbolic link to the nvim config directory
-ln -s $NVIM_DIR ~/.config/nvim
+    NVIM_VERSION=$(nvim --version | grep -oP '(?<=^NVIM v).+' | tr -d '"')
+    NVIM_MINOR_VERSION=$(echo $NVIM_VERSION | cut -d '.' -f 2)
+    if [[ $NVIM_MINOR_VERSION -lt 9 ]]; then
+        echo -e "${COLOR_RED}Neovim version is too old! Please update neovim and try again.${COLOR_RESET}"
+        echo -e "${COLOR_YELLOW}You will need at least version 0.9.0${COLOR_RESET}"
+        exit 1
+    fi
 
-# TMUX SETUP #
+    # DEPENDENCIES #
+    # This script will install the dependencies for the dotfiles we assume that
+    # you already have neovim
 
-echo -e "${COLOR_BLUE}Installing tmux config...${COLOR_RESET}"
+    DISTRO=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
+    case "$DISTRO" in
+        "arch")
+            echo -e "${COLOR_BLUE}Installing dependencies for Arch Linux...${COLOR_RESET}"
+            sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+            ;;
+        "manjaro")
+            echo -e "${COLOR_BLUE}Installing dependencies for Manjaro...${COLOR_RESET}"
+            sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+            ;;
+        "endeavouros")
+            echo -e "${COLOR_BLUE}Installing dependencies for EndeavourOS...${COLOR_RESET}"
+            sudo pacman -S --needed --noconfirm ripgrep fd fzf tmux
+            ;;
+        "ubuntu")
+            echo -e "${COLOR_BLUE}Installing dependencies for Ubuntu...${COLOR_RESET}"
+            sudo apt install -y ripgrep fd-find fzf tmux
+            ;;
+        "linuxmint")
+            echo -e "${COLOR_BLUE}Installing dependencies for Linux Mint...${COLOR_RESET}"
+            sudo apt install -y ripgrep fd-find fzf tmux
+            ;;
+        *)
+            echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
+            echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
+            exit 1
+    esac
+}
 
-TMUX_DIR=$SCRIPT_DIR/tmux
+neovim_setup() {
+    # NEOVIM SETUP #
+    echo -e "${COLOR_BLUE}Installing neovim config...${COLOR_RESET}"
 
-unlink ~/.tmux.conf 2> /dev/null || rm -f ~/.tmux.conf # remove old tmux config
+    NVIM_DIR=$SCRIPT_DIR/nvim
 
-ln -s $TMUX_DIR/.tmux.conf ~/.tmux.conf
+    ## BACKUP OLD CONFIG ##
+    # This will create a backup of the old nvim config just in case you want to revert back to it
+    # It will copy the old config to the nvim.bak directory
+    # Then we remove the old nvim config
 
-# This will install the tmux plugin manager and the plugins
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-    echo "Installing tmux plugin manager..."
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo -e "Creating old config backup at ~/.config/nvim.bak"
+
+    unlink ~/.config/nvim.bak 2> /dev/null || rm -rf ~/.config/nvim.bak
+    mkdir -p ~/.config/nvim.bak
+    cp -r ~/.config/nvim/* ~/.config/nvim.bak
+
+    unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim # remove old nvim config
+    NVIM_PLUGINS_DEFAULT_DIR=$NVIM_DIR/lua/plugins.default
+    NVIM_PLUGINS_DIR=$NVIM_DIR/lua/plugins
+
+    find $NVIM_PLUGINS_DIR -mindepth 1 ! -name ".gitkeep" ! -name ".gitignore" -exec rm -r {} \; # remove old plugins
+
+    ## DEFAULT PLUGINS ##
+    # This will install the plugins that I think are essential for a good nvim experience
+    # It will copy the plugins from the default directory to the working plugins directory
+    # so that you can modify them without affecting the default plugins
+
+    echo "Installing default plugins..."
+
+    NVIM_PLUGINS=("fugitive" "lsp" "surround" "trouble" "telescope" "treesitter" "undotree")
+    for plugin in "${NVIM_PLUGINS[@]}"; do
+        cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
+    done
+
+    ## OPTIONAL PLUGINS ##
+    # This will install the plugins that I think are optional for a good nvim experience
+    # It will copy the plugins from the default directory to the working plugins directory
+    # so that you can modify them without affecting the default plugins
+
+    echo "Installing optional plugins..."
+
+    NVIM_PLUGINS_OPTIONAL=("color" "todo" "copilot" "harpoon" "obsidian")
+    for plugin in "${NVIM_PLUGINS_OPTIONAL[@]}"; do
+        read -n1 -rep 'Do you want to install the optional plugin '$plugin'? [y/n]: ' answer
+        if [[ $answer =~ ^[Yy]$ ]]; then
+            cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
+        fi
+    done
+
+    ## INSTALL CONFIG ##
+    # This will create the symbolic link to the nvim config directory
+    ln -s $NVIM_DIR ~/.config/nvim
+}
+
+tmux_setup() {
+    # TMUX SETUP #
+    echo -e "${COLOR_BLUE}Installing tmux config...${COLOR_RESET}"
+
+    TMUX_DIR=$SCRIPT_DIR/tmux
+
+    unlink ~/.tmux.conf 2> /dev/null || rm -f ~/.tmux.conf # remove old tmux config
+
+    ln -s $TMUX_DIR/.tmux.conf ~/.tmux.conf
+
+    # This will install the tmux plugin manager and the plugins
+    if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+        echo "Installing tmux plugin manager..."
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
+    ~/.tmux/plugins/tpm/bin/install_plugins
+}
+
+scripts_setup() {
+    # SCRIPTS SETUP #
+    echo -e "${COLOR_BLUE}Installing dev scripts...${COLOR_RESET}"
+
+    SCRIPTS_DIR=$SCRIPT_DIR/scripts
+
+    mkdir -p ~/.local/bin
+
+    ## TMUX-SESSIONIZER ##
+
+    read -n1 -rep "Would you like to install tmux-sessionizer? (y,n)" INSTALL_TMUX_SESSIONIZER
+    if [[ $INSTALL_TMUX_SESSIONIZER =~ ^[Yy]$ ]]; then
+        read -rep "Enter the path to the directories that you want to use for tmux-sessionizer (separated by a space): " SESSIONIZER_DIRS
+
+        unlink ~/.tmux-sessionizer 2> /dev/null || rm -rf ~/.tmux-sessionizer
+
+        TMUX_SESSIONIZER_PATH=$SCRIPTS_DIR/tmux-sessionizer
+
+        echo "#!/usr/bin/env bash" > ~/.local/bin/tmux-sessionizer
+        echo "" >> ~/.local/bin/tmux-sessionizer
+        echo "$TMUX_SESSIONIZER_PATH $SESSIONIZER_DIRS" >> ~/.local/bin/tmux-sessionizer
+
+        chmod +x ~/.local/bin/tmux-sessionizer
+    fi
+}
+
+post_install() {
+    # Check if you have a patched font installed
+    echo -en "Can you see a checkmark? (y/n) \u2713"
+    read -n1 -rs CHECKMARK_ANSWER
+    echo ""
+
+    echo -en "Can you see a branch symbol? (y/n) \uE0A0"
+    read -n1 -rs BRANCH_ANSWER
+    echo ""
+
+    if [[ ! $CHECKMARK_ANSWER =~ ^[Yy]$ || ! $BRANCH_ANSWER =~ ^[Yy]$ ]]; then
+        echo -e "${COLOR_YELLOW}You need to install a patched font in order to see the dev icons otherwise some things will look weird${COLOR_RESET}"
+        echo -e "You can find a list of patched fonts at https://www.nerdfonts.com/font-downloads"
+    fi
+
+    echo -e "${COLOR_GREEN}Installation complete!${COLOR_RESET}"
+    echo -e "${COLOR_YELLOW}You need to add ~/.local/bin to your PATH variable in order to use the dev scripts${COLOR_RESET}"
+}
+
+checks
+
+read -n1 -rep 'Do you want to install the neovim config (this will overwrite your current config)? [y/n]: ' answer
+if [[ $answer =~ ^[Yy]$ ]]; then
+    neovim_setup
 fi
-~/.tmux/plugins/tpm/bin/install_plugins
 
-# SCRIPTS SETUP #
-
-echo -e "${COLOR_BLUE}Installing dev scripts...${COLOR_RESET}"
-
-SCRIPTS_DIR=$SCRIPT_DIR/scripts
-SCRIPTS=$(ls $SCRIPTS_DIR)
-
-mkdir -p ~/.local/bin
-
-for script in $SCRIPTS; do
-    unlink ~/.local/bin/$script 2> /dev/null || rm -f ~/.local/bin/$script
-
-    echo "Installing script: $script..."
-
-    ln -s $SCRIPTS_DIR/$script ~/.local/bin/$script
-done
-
-# INSTALLATION COMPLETE #
-
-# Check if you have a patched font installed
-echo -en "Can you see a checkmark? (y/n) \u2713"
-read -n1 -rs CHECKMARK_ANSWER
-echo ""
-
-echo -en "Can you see a branch symbol? (y/n) \uE0A0"
-read -n1 -rs BRANCH_ANSWER
-echo ""
-
-if [[ ! $CHECKMARK_ANSWER =~ ^[Yy]$ || ! $BRANCH_ANSWER =~ ^[Yy]$ ]]; then
-    echo -e "${COLOR_YELLOW}You need to install a patched font in order to see the dev icons otherwise some things will look weird${COLOR_RESET}"
-    echo -e "You can find a list of patched fonts at https://www.nerdfonts.com/font-downloads"
+read -n1 -rep 'Do you want to install the tmux config (this will overwrite your current config)? [y/n]: ' answer
+if [[ $answer =~ ^[Yy]$ ]]; then
+    tmux_setup
 fi
 
-echo -e "${COLOR_GREEN}Installation complete!${COLOR_RESET}"
-echo -e "${COLOR_YELLOW}You need to add ~/.local/bin to your PATH variable in order to use the dev scripts${COLOR_RESET}"
+read -n1 -rep 'Do you want to install the dev scripts? [y/n]: ' answer
+if [[ $answer =~ ^[Yy]$ ]]; then
+    scripts_setup
+fi
+
+post_install
