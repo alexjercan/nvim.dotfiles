@@ -66,7 +66,7 @@ return {
         end, { noremap = false, expr = true })
 
         vim.keymap.set("n", "<leader>oy", function()
-            return "<cmd>ObsidianYesterday<CR>"
+            return "<cmd>ObsidianToday -1<CR>"
         end, { noremap = false, expr = true })
 
         vim.keymap.set("n", "<leader>oo", function()
