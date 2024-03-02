@@ -149,7 +149,11 @@ scripts_setup() {
 
         echo "#!/usr/bin/env bash" > ~/.local/bin/tmux-sessionizer
         echo "" >> ~/.local/bin/tmux-sessionizer
-        echo "$TMUX_SESSIONIZER_PATH $SESSIONIZER_DIRS" >> ~/.local/bin/tmux-sessionizer
+        echo "if [ "\$#" -eq 0 ]; then" >> ~/.local/bin/tmux-sessionizer
+        echo "    $TMUX_SESSIONIZER_PATH $SESSIONIZER_DIRS" >> ~/.local/bin/tmux-sessionizer
+        echo "else" >> ~/.local/bin/tmux-sessionizer
+        echo "    $TMUX_SESSIONIZER_PATH --open \$1" >> ~/.local/bin/tmux-sessionizer
+        echo "fi" >> ~/.local/bin/tmux-sessionizer
 
         chmod +x ~/.local/bin/tmux-sessionizer
     fi
