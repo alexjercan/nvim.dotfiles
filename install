@@ -74,37 +74,14 @@ neovim_setup() {
     cp -r ~/.config/nvim/* ~/.config/nvim.bak
 
     unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim # remove old nvim config
-    NVIM_PLUGINS_DEFAULT_DIR=$NVIM_DIR/lua/plugins.default
-    NVIM_PLUGINS_DIR=$NVIM_DIR/lua/plugins
 
     find $NVIM_PLUGINS_DIR -mindepth 1 ! -name ".gitkeep" ! -name ".gitignore" -exec rm -r {} \; # remove old plugins
 
     ## DEFAULT PLUGINS ##
-    # This will install the plugins that I think are essential for a good nvim experience
-    # It will copy the plugins from the default directory to the working plugins directory
-    # so that you can modify them without affecting the default plugins
+    # Changed this to all plugins by default, you have to manually delete the ones you don't want
 
-    echo "Installing default plugins..."
-
-    NVIM_PLUGINS=("fugitive" "lsp" "surround" "trouble" "telescope" "treesitter" "undotree")
-    for plugin in "${NVIM_PLUGINS[@]}"; do
-        cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
-    done
-
-    ## OPTIONAL PLUGINS ##
-    # This will install the plugins that I think are optional for a good nvim experience
-    # It will copy the plugins from the default directory to the working plugins directory
-    # so that you can modify them without affecting the default plugins
-
-    echo "Installing optional plugins..."
-
-    NVIM_PLUGINS_OPTIONAL=("color" "todo" "copilot" "harpoon" "obsidian")
-    for plugin in "${NVIM_PLUGINS_OPTIONAL[@]}"; do
-        read -n1 -rep 'Do you want to install the optional plugin '$plugin'? [y/n]: ' answer
-        if [[ $answer =~ ^[Yy]$ ]]; then
-            cp $NVIM_PLUGINS_DEFAULT_DIR/$plugin.lua $NVIM_PLUGINS_DIR/$plugin.lua
-        fi
-    done
+    echo "Installing plugins..."
+    echo -e "${COLOR_YELLOW}You can remove the plugins you don't want from the ~/.config/nvim/lua/plugins directory${COLOR_RESET}"
 
     ## INSTALL CONFIG ##
     # This will create the symbolic link to the nvim config directory
