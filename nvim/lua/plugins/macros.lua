@@ -1,5 +1,5 @@
 return {
-    dir = "alexjercan/macros.nvim",
+    "alexjercan/macros.nvim",
     config = function ()
         require("macros").setup({
             file = "/home/alex/personal/the-den/scripts/data/macros.csv",
