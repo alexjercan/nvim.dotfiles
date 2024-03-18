@@ -20,6 +20,12 @@ return {
                     vim.cmd.Git("push")
                 end, opts)
 
+                vim.keymap.set("n", "<leader>b", function()
+                    vim.cmd.Git("stage *")
+                    vim.cmd.Git("commit -m 'backup'")
+                    vim.cmd.Git("push")
+                end, opts)
+
                 -- rebase always
                 vim.keymap.set("n", "<leader>P", function()
                     vim.cmd.Git({"pull",  "--rebase"})

@@ -19,7 +19,7 @@ syn match       Function "\<\l\w*"
 syn case ignore
 syn keyword     Operator        isvoid not
 syn keyword     Type            SELF_TYPE
-syn keyword     Statement       self let in
+syn keyword     Statement       self let in extern
 syn keyword     Conditional     if then else fi case esac of
 syn keyword     Repeat          while loop pool
 syn keyword     Boolean         true false
