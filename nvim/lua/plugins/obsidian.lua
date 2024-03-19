@@ -51,27 +51,27 @@ return {
 
         vim.keymap.set("n", "<leader>of", function ()
             return "<cmd>ObsidianFollowLink<CR>"
-        end, { noremap = false, expr = true })
+        end, { noremap = false, expr = true, desc = "Obsidian Follow Link" })
 
         vim.keymap.set("n", "<leader>on", function ()
             return "<cmd>ObsidianNew<CR>"
-        end, { noremap = false, expr = true })
+        end, { noremap = false, expr = true, desc = "Obsidian New" })
 
         vim.keymap.set("n", "<leader>os", function ()
             return "<cmd>ObsidianSearch<CR>"
-        end, { noremap = false, expr = true })
+        end, { noremap = false, expr = true, desc = "Obsidian Search" })
 
         vim.keymap.set("n", "<leader>ot", function()
             return "<cmd>ObsidianToday<CR>"
-        end, { noremap = false, expr = true })
+        end, { noremap = false, expr = true, desc = "Obsidian Today" })
 
         vim.keymap.set("n", "<leader>oy", function()
             return "<cmd>ObsidianToday -1<CR>"
-        end, { noremap = false, expr = true })
+        end, { noremap = false, expr = true, desc = "Obsidian Yesterday" })
 
         vim.keymap.set("n", "<leader>oo", function()
             local builtin = require("telescope.builtin")
             builtin.grep_string({ cwd = "~/personal/the-den/", search = "- [ ]" })
-        end)
+        end, { noremap = false, expr = true, desc = "Obsidian Open Todos" })
     end,
 }
