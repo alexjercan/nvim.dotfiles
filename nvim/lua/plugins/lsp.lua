@@ -49,6 +49,8 @@ return {
                     { buffer = bufnr, remap = false, desc = "LSP Rename" })
                 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end,
                     { buffer = bufnr, remap = false, desc = "LSP Signature Help" })
+                vim.keymap.set("n", "<leader>vmt", function() vim.lsp.buf.format() end,
+                    { buffer = bufnr, remap = false, desc = "LSP Format" })
             end)
 
             require("mason").setup({})
