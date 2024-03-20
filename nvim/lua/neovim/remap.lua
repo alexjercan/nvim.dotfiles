@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>rv", vim.cmd.Ex, { desc = "File Navigator" })
+vim.keymap.set("n", "<leader>mv", vim.cmd.Ex, { desc = "File Navigator" })
 
 -- cool move line in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -41,7 +41,7 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc =
 
 -- for when you have to share the screen and they ask you
 -- "what does the code from the line 10 mean?"
-vim.keymap.set("n", "<leader>rnu", ":set rnu!<CR>", { desc = "Toggle relative numbers" })
+vim.keymap.set("n", "<leader>mnu", ":set rnu!<CR>", { desc = "Toggle relative numbers" })
 
 -- don't be a pussy, just use hjkl
 vim.keymap.set("i", "<Up>", "<C-o>:echom \"--> k <-- \"<CR>")

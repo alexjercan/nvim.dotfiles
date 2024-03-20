@@ -13,7 +13,7 @@ return {
             o = { name = "Obsidian", },
             t = { name = "Testing", },
             v = { name = "Lsp", },
-            r = { name = "Misc", },
+            m = { name = "Misc", },
         }, {
             prefix = "<leader>",
         })
