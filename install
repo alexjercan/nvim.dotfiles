@@ -51,8 +51,16 @@ checks() {
             ;;
         *)
             echo -e "${COLOR_RED}Unsupported distro: $DISTRO${COLOR_RESET}"
+            echo -e "You can install the dependencies manually: "
+            echo -e " - ripgrep <https://github.com/BurntSushi/ripgrep>"
+            echo -e " - fd <https://github.com/sharkdp/fd>"
+            echo -e " - fzf <https://github.com/junegunn/fzf>"
+            echo -e " - tmux <https://github.com/tmux/tmux>"
             echo -e "${COLOR_YELLOW}You can raise an issue at https://github.com/alexjercan/nvim.dotfiles/issues to add support for your distro${COLOR_RESET}"
-            exit 1
+            read -n1 -rep "Install the dependencies manually and then continue (y) or quit (n)" INSTALL_MANUALLY
+            if [[ ! $INSTALL_MANUALLY =~ ^[Yy]$ ]]; then
+                exit 1
+            fi
     esac
 }
 
@@ -75,13 +83,11 @@ neovim_setup() {
 
     unlink ~/.config/nvim 2> /dev/null || rm -rf ~/.config/nvim # remove old nvim config
 
-    find $NVIM_PLUGINS_DIR -mindepth 1 ! -name ".gitkeep" ! -name ".gitignore" -exec rm -r {} \; # remove old plugins
-
     ## DEFAULT PLUGINS ##
     # Changed this to all plugins by default, you have to manually delete the ones you don't want
 
     echo "Installing plugins..."
-    echo -e "${COLOR_YELLOW}You can remove the plugins you don't want from the ~/.config/nvim/lua/plugins directory${COLOR_RESET}"
+    echo "You can remove the plugins you don't want from the ~/.config/nvim/lua/plugins directory"
 
     ## INSTALL CONFIG ##
     # This will create the symbolic link to the nvim config directory

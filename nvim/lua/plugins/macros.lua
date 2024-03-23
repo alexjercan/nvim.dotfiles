@@ -1,11 +1,11 @@
 return {
     "alexjercan/macros.nvim",
-    config = function ()
-        require("macros").setup({
-            file = "/home/alex/personal/the-den/scripts/data/macros.csv",
-        })
+    opts = {},
+    config = function (_, opts)
+        require("macros").setup(opts)
 
         vim.keymap.set("n", "<leader>mm", "<cmd>:Macros<cr>", { noremap = true, silent = true , desc = "Macros"})
+        vim.keymap.set("n", "<leader>mi", "<cmd>:Macros<cr>", { noremap = true, silent = true , desc = "MacrosInsert"})
     end
 }
 

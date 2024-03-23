@@ -10,7 +10,6 @@ return {
             d = { name = "Debug", },
             g = { name = "Git", },
             n = { name = "Neogen", },
-            o = { name = "Obsidian", },
             t = { name = "Testing", },
             v = { name = "Lsp", },
             m = { name = "Misc", },

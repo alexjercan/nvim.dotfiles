@@ -17,12 +17,6 @@ return {
                     vim.cmd.Git("push")
                 end, {buffer = bufnr, remap = false, desc = "Git Push"})
 
-                vim.keymap.set("n", "<leader>b", function()
-                    vim.cmd.Git("stage *")
-                    vim.cmd.Git("commit -m 'backup'")
-                    vim.cmd.Git("push")
-                end, {buffer = bufnr, remap = false, desc = "Git Backup"})
-
                 -- rebase always
                 vim.keymap.set("n", "<leader>P", function()
                     vim.cmd.Git({"pull",  "--rebase"})
