@@ -126,7 +126,7 @@ scripts_setup() {
     if [[ $INSTALL_TMUX_SESSIONIZER =~ ^[Yy]$ ]]; then
         read -rep "Enter the path to the directories that you want to use for tmux-sessionizer (separated by a space): " SESSIONIZER_DIRS
 
-        unlink ~/.tmux-sessionizer 2> /dev/null || rm -rf ~/.tmux-sessionizer
+        unlink ~/.local/bin/tmux-sessionizer 2> /dev/null || rm -rf ~/.local/bin/tmux-sessionizer
 
         TMUX_SESSIONIZER_PATH=$SCRIPTS_DIR/tmux-sessionizer
 
