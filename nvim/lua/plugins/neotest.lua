@@ -8,6 +8,7 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "nvim-neotest/neotest-plenary",
             "nvim-neotest/neotest-python",
+            "rouge8/neotest-rust",
         },
         opts = {
             adapters = {
@@ -15,6 +16,9 @@ return {
                     -- this is my standard location for minimal vim rc
                     -- in all my projects
                     min_init = "./scripts/tests/minimal.vim",
+                },
+                ["neotest-rust"] = {
+                    args = { "--no-capture" },
                 },
                 ["neotest-python"] = {
                     -- Extra arguments for nvim-dap configuration
