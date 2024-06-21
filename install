@@ -134,8 +134,19 @@ scripts_setup() {
         echo "" >> ~/.local/bin/tmux-sessionizer
         echo "if [ "\$#" -eq 0 ]; then" >> ~/.local/bin/tmux-sessionizer
         echo "    $TMUX_SESSIONIZER_PATH $SESSIONIZER_DIRS" >> ~/.local/bin/tmux-sessionizer
-        echo "else" >> ~/.local/bin/tmux-sessionizer
-        echo "    $TMUX_SESSIONIZER_PATH --open \$1" >> ~/.local/bin/tmux-sessionizer
+        echo "elif [[ "\$#" -eq 2 && \$1 == \"--open\" || \$1 == \"-o\" ]]; then" >> ~/.local/bin/tmux-sessionizer
+        echo "    $TMUX_SESSIONIZER_PATH --open \$2" >> ~/.local/bin/tmux-sessionizer
+        echo "elif [[ "\$#" -eq 2 && \$1 == \"--create\" || \$1 == \"-c\" ]]; then" >> ~/.local/bin/tmux-sessionizer
+        echo "    names=($SESSIONIZER_DIRS)" >> ~/.local/bin/tmux-sessionizer
+        echo "    selected=()" >> ~/.local/bin/tmux-sessionizer
+        echo "    PS3=\"Choose the project directory: \"" >> ~/.local/bin/tmux-sessionizer
+        echo "    select name in \"\${names[@]}\" ; do" >> ~/.local/bin/tmux-sessionizer
+        echo "        for reply in \$REPLY ; do" >> ~/.local/bin/tmux-sessionizer
+        echo "            selected+=(\${names[reply - 1]})" >> ~/.local/bin/tmux-sessionizer
+        echo "        done" >> ~/.local/bin/tmux-sessionizer
+        echo "        [[ \$selected ]] && break" >> ~/.local/bin/tmux-sessionizer
+        echo "    done" >> ~/.local/bin/tmux-sessionizer
+        echo "    $TMUX_SESSIONIZER_PATH --create \$selected/\$2" >> ~/.local/bin/tmux-sessionizer
         echo "fi" >> ~/.local/bin/tmux-sessionizer
 
         chmod +x ~/.local/bin/tmux-sessionizer
